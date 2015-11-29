@@ -1,0 +1,10 @@
+.DS_Store
+*.swp
+*.swo
+*.pyc
+*.egg-info/
+dist/
+
+*.csv
+*.model
+mldata
