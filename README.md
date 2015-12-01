@@ -2,6 +2,12 @@
 
 scikit-learn like interface and stacked autoencoder for chainer
 
+## Requirements
+
+* numpy
+* scikit-learn
+* chainer >= 1.5
+
 ## Installation
 
     pip install zChainer
@@ -12,6 +18,7 @@ scikit-learn like interface and stacked autoencoder for chainer
 
 ```python
 import numpy as np
+import chainer.functions as F
 import chainer.links as L
 from chainer import ChainList, optimizers
 from zChainer import NNAutoEncoder, utility
@@ -21,10 +28,16 @@ data = (..).astype(np.float32)
 encoder = ChainList(
     L.Linear(784, 200),
     L.Linear(200, 100))
-decoder =(
+decoder =ChainList(
     L.Linear(200, 784),
     L.Linear(100, 200))
 
+# You can set your own forward function. Default is as below.
+#def forward(self, x):
+#    h = F.dropout(F.relu(self.model[0](x)))
+#    return F.dropout(F.relu(self.model[1](h)))
+#
+#NNAutoEncoder.forward = forward
 ae = NNAutoEncoder(encoder, decoder, optimizers.Adam(), epoch=100, batch_size=100,
     log_path="./ae_"+utility.now()+"_log.csv", export_path="./ae_"+utility.now()+".model")
 
@@ -59,11 +72,11 @@ def forward(self, x):
     h = F.relu(self.model[0](x))
     h = F.relu(self.model[1](h))
     return F.relu(self.model[2](h))
-NNManager.forward = forward
 
+NNManager.forward = forward
 nn = NNManager(model, optimizers.Adam(), F.softmax_cross_entropy, epoch=100, batch_size=100,
     log_path="./training_"+utility.now()+"_log.csv", export_path="./training_"+utility.now()+".model")
 
-nn.fit(X_train, y_train, X_test, y_test)
-nn.predict(X_test)
+nn.fit(X_train, y_train)
+nn.predict(X_test, y_test)
 ```

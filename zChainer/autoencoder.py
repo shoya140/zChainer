@@ -24,9 +24,9 @@ class NNAutoEncoder ():
     def fit(self, x_train):
         for layer in range(0, len(self.encoder)):
             # Creating model
-            NNManager.forward = forward
-            model = ChainList(self.encoder[layer].copy(), self.decoder[layer].copy())
-            nn = NNManager(model, self.optimizer, F.mean_squared_error,
+            self.model = ChainList(self.encoder[layer].copy(), self.decoder[layer].copy())
+            NNManager.forward = self.forward
+            nn = NNManager(self.model, self.optimizer, F.mean_squared_error,
                 self.epoch, self.batch_size, self.log_path)
 
             # Training
@@ -48,6 +48,6 @@ class NNAutoEncoder ():
             h = self.encode(x, n-1)
             return F.relu(self.autoencoded[n-1](h))
 
-def forward(self, x):
-    h = F.dropout(F.relu(self.model[0](x)))
-    return F.dropout(F.relu(self.model[1](h)))
+    def forward(self, x):
+        h = F.dropout(F.relu(self.model[0](x)))
+        return F.dropout(F.relu(self.model[1](h)))

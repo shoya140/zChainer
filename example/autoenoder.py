@@ -18,9 +18,17 @@ data = mnist.data.astype(np.float32)
 encoder = ChainList(
     L.Linear(784, 200),
     L.Linear(200, 100))
-decoder =(
+decoder =ChainList(
     L.Linear(200, 784),
     L.Linear(100, 200))
+
+# You can set your own forward function. Default is as below.
+#def forward(self, x):
+#    h = F.dropout(F.relu(self.model[0](x)))
+#    return F.dropout(F.relu(self.model[1](h)))
+#
+#NNAutoEncoder.forward = forward
 ae = NNAutoEncoder(encoder, decoder, optimizers.Adam(), epoch=100, batch_size=100,
     log_path="./ae_"+utility.now()+"_log.csv", export_path="./ae_"+utility.now()+".model")
+
 ae.fit(data)
