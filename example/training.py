@@ -33,6 +33,6 @@ def forward(self, x):
     return F.relu(self.model[2](h))
 
 NNManager.forward = forward
-nn = NNManager(model, optimizers.Adam(), F.softmax_cross_entropy, epoch=10, batch_size=100,
+nn = NNManager(model, optimizers.Adam(), F.softmax_cross_entropy, epoch=100, batch_size=100,
     log_path="./training_"+utility.now()+"_log.csv", export_path="./training_"+utility.now()+".model")
 nn.fit(X_train, y_train, X_test, y_test)

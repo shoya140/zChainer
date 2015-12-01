@@ -25,8 +25,8 @@ decoder =(
     L.Linear(1000, 784),
     L.Linear(100, 1000))
 
-ae = NNAutoEncoder(encoder, decoder, optimizers.Adam(), epoch=2, batch_size=100,
-    log_path="./ae_log_"+utility.now()+".csv", export_path="./ae_"+utility.now()+".model")
+ae = NNAutoEncoder(encoder, decoder, optimizers.Adam(), epoch=100, batch_size=100,
+    log_path="./ae_"+utility.now()+"_log.csv", export_path="./ae_"+utility.now()+".model")
 
 ae.fit(data)
 ```
@@ -61,8 +61,8 @@ def forward(self, x):
     return F.relu(self.model[2](h))
 NNManager.forward = forward
 
-nn = NNManager(model, optimizers.Adam(), F.softmax_cross_entropy, epoch=10, batch_size=100,
-    log_path="./training_log_"+utility.now()+".csv", export_path="./training_"+utility.now()+".model")
+nn = NNManager(model, optimizers.Adam(), F.softmax_cross_entropy, epoch=100, batch_size=100,
+    log_path="./training_"+utility.now()+"_log.csv", export_path="./training_"+utility.now()+".model")
 
 nn.fit(X_train, y_train, X_test, y_test)
 nn.predict(X_test)

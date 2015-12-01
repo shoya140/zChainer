@@ -21,6 +21,6 @@ encoder = ChainList(
 decoder =(
     L.Linear(1000, 784),
     L.Linear(100, 1000))
-ae = NNAutoEncoder(encoder, decoder, optimizers.Adam(), epoch=2, batch_size=100,
+ae = NNAutoEncoder(encoder, decoder, optimizers.Adam(), epoch=100, batch_size=100,
     log_path="./ae_"+utility.now()+"_log.csv", export_path="./ae_"+utility.now()+".model")
 ae.fit(data)
