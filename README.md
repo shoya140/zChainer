@@ -19,14 +19,14 @@ from zChainer import NNAutoEncoder, utility
 data = (..).astype(np.float32)
 
 encoder = ChainList(
-    L.Linear(784, 1000),
-    L.Linear(1000, 100))
+    L.Linear(784, 200),
+    L.Linear(200, 100))
 decoder =(
-    L.Linear(1000, 784),
-    L.Linear(100, 1000))
+    L.Linear(200, 784),
+    L.Linear(100, 200))
 
-ae = NNAutoEncoder(encoder, decoder, optimizers.Adam(), epoch=2, batch_size=100,
-    log_path="./ae_log_"+utility.now()+".csv", export_path="./ae_"+utility.now()+".model")
+ae = NNAutoEncoder(encoder, decoder, optimizers.Adam(), epoch=100, batch_size=100,
+    log_path="./ae_"+utility.now()+"_log.csv", export_path="./ae_"+utility.now()+".model")
 
 ae.fit(data)
 ```
@@ -47,7 +47,7 @@ X_test = (..).astype(np.float32)
 y_test = (..).astype(np.int32)
 
 # Create a new network
-model = ChainList(L.Linear(784, 1000), L.Linear(1000, 100), L.Linear(100, 10))
+model = ChainList(L.Linear(784, 200), L.Linear(200, 100), L.Linear(100, 10))
 
 # or load a serialized model
 #f = open("./ae_2015-12-01_11-26-45.model")
@@ -61,8 +61,8 @@ def forward(self, x):
     return F.relu(self.model[2](h))
 NNManager.forward = forward
 
-nn = NNManager(model, optimizers.Adam(), F.softmax_cross_entropy, epoch=10, batch_size=100,
-    log_path="./training_log_"+utility.now()+".csv", export_path="./training_"+utility.now()+".model")
+nn = NNManager(model, optimizers.Adam(), F.softmax_cross_entropy, epoch=100, batch_size=100,
+    log_path="./training_"+utility.now()+"_log.csv", export_path="./training_"+utility.now()+".model")
 
 nn.fit(X_train, y_train, X_test, y_test)
 nn.predict(X_test)

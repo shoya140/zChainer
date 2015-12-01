@@ -10,17 +10,17 @@ from sklearn.datasets import fetch_mldata
 
 import sys,os.path
 sys.path.append('../')
-from zChainer import NNManager, NNAutoEncoder, utility
+from zChainer import NNAutoEncoder, utility
 
 mnist = fetch_mldata('MNIST original', data_home=".")
 data = mnist.data.astype(np.float32)
 
 encoder = ChainList(
-    L.Linear(784, 1000),
-    L.Linear(1000, 100))
+    L.Linear(784, 200),
+    L.Linear(200, 100))
 decoder =(
-    L.Linear(1000, 784),
-    L.Linear(100, 1000))
-ae = NNAutoEncoder(encoder, decoder, optimizers.Adam(), epoch=2, batch_size=100,
+    L.Linear(200, 784),
+    L.Linear(100, 200))
+ae = NNAutoEncoder(encoder, decoder, optimizers.Adam(), epoch=100, batch_size=100,
     log_path="./ae_"+utility.now()+"_log.csv", export_path="./ae_"+utility.now()+".model")
 ae.fit(data)
