@@ -31,7 +31,7 @@ class NNAutoEncoder ():
 
             # Training
             x_data = self.encode(x_train, layer).data
-            nn.fit(x_data, x_data, autoencoding=True)
+            nn.fit(x_data, x_data)
             self.autoencoded.add_link(nn.model[0].copy())
 
         if self.export_path != "":

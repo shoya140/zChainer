@@ -39,7 +39,7 @@ decoder =ChainList(
 #
 #NNAutoEncoder.forward = forward
 ae = NNAutoEncoder(encoder, decoder, optimizers.Adam(), epoch=100, batch_size=100,
-    log_path="./ae_"+utility.now()+"_log.csv", export_path="./ae_"+utility.now()+".model")
+    log_path="./ae_log_"+utility.now()+".csv", export_path="./ae_"+utility.now()+".model")
 
 ae.fit(data)
 ```
@@ -73,9 +73,15 @@ def forward(self, x):
     h = F.relu(self.model[1](h))
     return F.relu(self.model[2](h))
 
+def output(self, y):
+    y_trimed = y.data.argmax(axis=1)
+    return np.array(y_trimed, dtype=np.int32)
+
 NNManager.forward = forward
-nn = NNManager(model, optimizers.Adam(), F.softmax_cross_entropy, epoch=100, batch_size=100,
-    log_path="./training_"+utility.now()+"_log.csv", export_path="./training_"+utility.now()+".model")
+NNManager.output = output
+nn = NNManager(model, optimizers.Adam(), F.softmax_cross_entropy, 
+    epoch=100, batch_size=100,
+    log_path="./training_log_"+utility.now()+".csv")
 
 nn.fit(X_train, y_train)
 nn.predict(X_test, y_test)

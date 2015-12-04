@@ -32,9 +32,14 @@ def forward(self, x):
     h = F.relu(self.model[1](h))
     return F.relu(self.model[2](h))
 
-NNManager.forward = forward
-nn = NNManager(model, optimizers.Adam(), F.softmax_cross_entropy, epoch=100, batch_size=100,
-    log_path="./training_"+utility.now()+"_log.csv", export_path="./training_"+utility.now()+".model")
+def output(self, y):
+    y_trimed = y.data.argmax(axis=1)
+    return np.array(y_trimed, dtype=np.int32)
 
-nn.fit(X_train, y_train)
-nn.predict(X_test, y_test)
+NNManager.forward = forward
+nn = NNManager(model, optimizers.Adam(), F.softmax_cross_entropy,
+    epoch=100, batch_size=100,
+    log_path="./log_training_"+utility.now()+".csv")
+
+nn.fit(X_train, y_train, X_test, y_test, isClassification=True)
+nn.predict(X_test)
