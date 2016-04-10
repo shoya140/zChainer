@@ -79,10 +79,10 @@ def output(self, y):
 
 NNManager.forward = forward
 NNManager.output = output
-nn = NNManager(model, optimizers.Adam(), F.softmax_cross_entropy, 
+nn = NNManager(model, optimizers.Adam(), F.softmax_cross_entropy,
     epoch=100, batch_size=100,
     log_path="./training_log_"+utility.now()+".csv")
 
-nn.fit(X_train, y_train)
+nn.fit(X_train, y_train, is_classification=True)
 nn.predict(X_test, y_test)
 ```

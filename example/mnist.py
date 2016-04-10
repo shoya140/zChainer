@@ -41,5 +41,5 @@ nn = NNManager(model, optimizers.Adam(), F.softmax_cross_entropy,
     epoch=100, batch_size=100,
     log_path="./log_training_"+utility.now()+".csv")
 
-nn.fit(X_train, y_train, X_test, y_test, isClassification=True)
+nn.fit(X_train, y_train, X_test, y_test, is_classification=True)
 nn.predict(X_test)
