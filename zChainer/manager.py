@@ -68,9 +68,9 @@ class NNManager (BaseEstimator):
                     "%s,%d,%f,%f,%f\n"% (utility.now(), epoch,
                         train_loss, test_loss, test_accuracy))
 
+        if self.gpu_flag >= 0:
+            self.model.to_cpu()
         if self.export_path != "":
-            if self.gpu_flag >= 0:
-                self.model.to_cpu()
             pickle.dump(self.model, open(self.export_path, 'wb'), -1)
         return self
 

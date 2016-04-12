@@ -13,7 +13,7 @@ if os.path.exists('README.txt'):
 
 setup(
     name  = 'zChainer',
-    version = '0.2.1',
+    version = '0.3.1',
     description = 'scikit-learn like interface and stacked autoencoder for chainer',
     long_description = long_description,
     license = 'MIT',
