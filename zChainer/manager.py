@@ -49,16 +49,16 @@ class NNManager (BaseEstimator):
                 loss = self.loss_function(self.forward(x), t)
                 loss.backward()
                 self.optimizer.update()
-                train_loss += loss.data * self.batch_size
+                train_loss += loss.data * len(t.data)
             train_loss /= train_size
 
             test_size = len(x_test)
             for i in xrange(0, test_size, self.batch_size):
                 x = Variable(xp.asarray(x_test[i:i+self.batch_size]))
                 t = Variable(xp.asarray(y_test[i:i+self.batch_size]))
-                test_loss += self.loss_function(self.forward(x), t).data * self.batch_size
+                test_loss += float(self.loss_function(self.forward(x), t).data) * len(t.data)
                 if is_classification:
-                    test_accuracy += F.accuracy(self.forward(x), t).data * self.batch_size
+                    test_accuracy += float(F.accuracy(self.forward(x), t).data) * len(t.data)
             if test_size != 0:
                 test_loss /= test_size
                 test_accuracy /= test_size
